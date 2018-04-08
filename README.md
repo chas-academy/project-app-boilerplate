@@ -17,21 +17,21 @@ Table of contents
 ## Directory Layout
 ```bash
 ./
-├── /src                    # Directory for the api code, a standard express app using Postgres as database
-│   ├── /config/            #
-│   ├── /controllers/       #
-│   ├── /helpers/           #
-│   ├── /lib/               #
-│   ├── /migrations/        #
-│   ├── /models/            #
-│   ├── /routes/            #
-│   ├── /seeders/           #
-│   └── server.js           #
-├── .env                    # Defines environment variables for the project
-├── .sequelizerc            # Defines default configuration for a database helper tool called Sequelize
-├── docker-compose.yml      # Defines Docker services, networks and volumes, do not touch unless you know what you are doing
-├── Dockerfile              # Defines how Docker should build a custom image for the application, do not touch unless you know what you are doing
-└── README.md               # The file you are reading right now
+├── /public/                     # Public directory, ready to be served by a web server
+├── /src/                        # Directory for the app code, a standard create-react-app with Redux and other goodies
+│   ├── /Assets/                 #
+│   ├── /Components/             #
+│   ├── /Config.dist/            #
+│   ├── /Lib/                    #
+│   ├── /Redux/                  #
+│   ├── /Tests/                  #
+│   ├── /Views/                  #
+│   ├── registerServiceWorker.js #
+│   └── index.js                 #
+├── .env.dist                    # Defines template for environment variables
+├── docker-compose.yml           # Defines Docker services, networks and volumes, do not touch unless you know what you are doing
+├── Dockerfile                   # Defines how Docker should build a custom image for the application, do not touch unless you know what you are doing
+└── README.md                    # The file you are reading right now
 ```
 
 ## Quickstart
