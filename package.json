@@ -40,7 +40,7 @@
     "rebuild-node-sass": "rebuild-node-sass",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start": "PORT=7771 react-scripts start",
+    "start": "PORT=${API_PORT} react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

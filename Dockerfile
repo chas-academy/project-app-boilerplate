@@ -1,4 +1,4 @@
-FROM node:9.2.1
+FROM mhart/alpine-node:latest
 
 ADD yarn.lock /yarn.lock
 ADD package.json /package.json

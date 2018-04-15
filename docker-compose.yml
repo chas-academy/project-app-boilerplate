@@ -8,6 +8,6 @@ services:
     volumes:
       - ./:/home/node/app
     ports:
-      - 7771:7771
+      - ${APP_PORT}:7771
     env_file:
       - .env
