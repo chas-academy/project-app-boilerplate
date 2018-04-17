@@ -1,0 +1,6 @@
+{
+  "name":"client",
+  "domain": "client.chas.school",
+  "project": "solenya",
+  "template": "docker-compose"
+}

@@ -5,9 +5,11 @@ services:
     build: .
     image: react_client
     working_dir: /home/node/app
+    labels:
+      traefik.backend: "react_client"
+      traefik.docker.network: "host"
+      traefik.frontend.rule: "Host:client.chas.school"
     volumes:
       - ./:/home/node/app
-    ports:
-      - ${APP_PORT}:7771
     env_file:
       - .env
