@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:latest
+FROM mhart/alpine-node:latest as app-builder
 
 ADD yarn.lock /yarn.lock
 ADD package.json /package.json
@@ -6,11 +6,13 @@ ADD package.json /package.json
 ENV NODE_PATH=/node_modules
 ENV PATH=$PATH:/node_modules/.bin
 
-RUN yarn
-
 WORKDIR /app
-ADD . /app
+COPY . /app
 
-EXPOSE 7771
+RUN yarn
+RUN yarn run build
 
-CMD ["yarn", "start"]
+FROM nginx:latest
+COPY --from=app-builder /app/build /usr/share/nginx/html
+
+EXPOSE 80
