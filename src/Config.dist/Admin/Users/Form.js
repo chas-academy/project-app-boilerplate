@@ -1,23 +1,18 @@
-import _ from 'lodash'
-import Paths from '../../Paths'
+import _ from 'lodash';
+import Paths from '../../Paths';
 
-const SUPER_ADMIN_PATH_NAMES = _.map(Paths.SuperAdmin, 'name')
-const SUPER_ADMIN_PATHS = _.map(Paths.SuperAdmin, 'path')
-const USER_PATHS = _.map(Paths.User, 'path')
+const SUPER_ADMIN_PATH_NAMES = _.map(Paths.SuperAdmin, 'name');
+const SUPER_ADMIN_PATHS = _.map(Paths.SuperAdmin, 'path');
+const USER_PATHS = _.map(Paths.User, 'path');
 
-const ROLES = [
-  'Super Admin',
-  'Admin',
-  'Developer',
-  'User'
-]
+const ROLES = ['Super Admin', 'Admin', 'Developer', 'User'];
 
 const STATUS = [
   { name: 'Active', value: 'active' },
   { name: 'Inactive', value: 'inactive' },
   { name: 'Pending', value: 'pending' },
-  { name: 'Blocked', value: 'blocked' }
-]
+  { name: 'Blocked', value: 'blocked' },
+];
 
 const initData = {
   firstName: '',
@@ -27,31 +22,25 @@ const initData = {
   status: 'pending',
   redirect: '',
   allowedPaths: USER_PATHS,
-  excludedPaths: []
-}
+  excludedPaths: [],
+};
 
 const schema = {
   type: 'object',
-  required: [
-    'firstName',
-    'lastName',
-    'email',
-    'status',
-    'allowedPaths'
-  ],
+  required: ['firstName', 'lastName', 'email', 'status', 'allowedPaths'],
   properties: {
     firstName: {
       type: 'string',
-      title: 'First Name'
+      title: 'First Name',
     },
     lastName: {
       type: 'string',
-      title: 'Last Name'
+      title: 'Last Name',
     },
     email: {
       type: 'string',
       title: 'Email',
-      default: ''
+      default: '',
     },
     role: {
       type: 'string',
@@ -62,14 +51,14 @@ const schema = {
       type: 'string',
       title: 'Status',
       enum: _.map(STATUS, 'value'),
-      enumNames: _.map(STATUS, 'name')
+      enumNames: _.map(STATUS, 'name'),
     },
     redirect: {
       type: 'string',
-      title: 'Redirect Path or URL'
-    }
-  }
-}
+      title: 'Redirect Path or URL',
+    },
+  },
+};
 
 const schemaAllowedPaths = {
   type: 'array',
@@ -79,8 +68,8 @@ const schemaAllowedPaths = {
     enum: _.concat(['*'], SUPER_ADMIN_PATHS),
     enumNames: _.concat(['All'], SUPER_ADMIN_PATH_NAMES),
   },
-  uniqueItems: true
-}
+  uniqueItems: true,
+};
 
 const schemaAllowedAllPaths = {
   type: 'array',
@@ -88,10 +77,10 @@ const schemaAllowedAllPaths = {
   items: {
     type: 'string',
     enum: ['*'],
-    enumNames: ['All']
+    enumNames: ['All'],
   },
-  uniqueItems: true
-}
+  uniqueItems: true,
+};
 
 const schemaExcludedPaths = {
   type: 'array',
@@ -101,8 +90,8 @@ const schemaExcludedPaths = {
     enum: SUPER_ADMIN_PATHS,
     enumNames: SUPER_ADMIN_PATH_NAMES,
   },
-  uniqueItems: true
-}
+  uniqueItems: true,
+};
 
 const uiSchema = {
   'ui:rootFieldId': 'user',
@@ -113,30 +102,30 @@ const uiSchema = {
     'ui:emptyValue': '',
   },
   email: {
-    'ui:widget': 'email'
+    'ui:widget': 'email',
   },
   role: {
     'ui:widget': 'radio',
-    'ui:options': { inline: true }
+    'ui:options': { inline: true },
   },
   status: {
     'ui:widget': 'radio',
-    'ui:options': { inline: true }
+    'ui:options': { inline: true },
   },
   allowedPaths: {
-    'ui:widget': 'checkboxes'
+    'ui:widget': 'checkboxes',
   },
   excludedPaths: {
-    'ui:widget': 'checkboxes'
+    'ui:widget': 'checkboxes',
   },
   redirect: {
     'ui:help': [
       "If there's no referrer found, the path or URL is used for user's redirection after signing in.",
       'Enter a path without domain for internal redirection, e.i. /admin/dashboard.',
-      'Or enter a complete URL for external redirection, e.i. http://domain.com/page.'
-    ].join(' ')
-  }
-}
+      'Or enter a complete URL for external redirection, e.i. http://domain.com/page.',
+    ].join(' '),
+  },
+};
 
 export default {
   paths: Paths,
@@ -145,5 +134,5 @@ export default {
   schemaAllowedPaths,
   schemaAllowedAllPaths,
   schemaExcludedPaths,
-  uiSchema
-}
+  uiSchema,
+};

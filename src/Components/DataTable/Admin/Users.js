@@ -1,35 +1,35 @@
-import React, { Component } from 'react'
-import DataTable from '../DataTable'
-import { isAuthorised } from '../../../Lib/Helpers/Session'
-import AdminUserForm from '../../Forms/Admin/User'
-import AdminUserStatic from '../../Forms/Static/Admin/User'
-import Config from '../../../Config/Admin/Users/DataTable'
-import DELETE_USER from '../../../Config/Admin/Users/DeleteUser'
+import React, { Component } from 'react';
+import DataTable from '../DataTable';
+import { isAuthorised } from '../../../Lib/Helpers/Session';
+import AdminUserForm from '../../Forms/Admin/User';
+import AdminUserStatic from '../../Forms/Static/Admin/User';
+import Config from '../../../Config/Admin/Users/DataTable';
+import DELETE_USER from '../../../Config/Admin/Users/DeleteUser';
 
 const NEW_FORM_OPTION = {
   title: 'New User',
-  component: AdminUserForm
-}
+  component: AdminUserForm,
+};
 const EDIT_FORM_OPTION = {
   title: 'Edit User',
-  component: AdminUserForm
-}
+  component: AdminUserForm,
+};
 const VIEW_RECORD_OPTION = {
   title: 'User',
-  component: AdminUserStatic
-}
+  component: AdminUserStatic,
+};
 
 export default class Users extends Component {
   render() {
-    const props = this.props
+    const { AdminUsers, saveQuery, path } = this.props;
 
     return (
       <DataTable
         {...Config}
         dataSource={process.env.REACT_APP_API_USERS_URL}
-        path={props.path}
-        dataTableState={props.AdminUsers}
-        saveQueryState={props.saveQuery}
+        path={path}
+        dataTableState={AdminUsers}
+        saveQueryState={saveQuery}
         showNewForm={isAuthorised('/admin/users/new')}
         showViewRecord={isAuthorised('/admin/users/:userId')}
         showEditRecord={isAuthorised('/admin/users/:userId/edit')}
@@ -40,6 +40,6 @@ export default class Users extends Component {
         viewRecordOption={VIEW_RECORD_OPTION}
         confirmModal={DELETE_USER}
       />
-    )
+    );
   }
 }

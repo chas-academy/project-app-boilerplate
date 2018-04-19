@@ -1,14 +1,12 @@
-version: '3.5'
+version: '3.0'
 services:
-  react_client:
-    container_name: react_client
+  APP_CONTAINER_NAME:
+    container_name: APP_CONTAINER_NAME
     build: .
-    image: react_client
+    image: APP_CONTAINER_NAME
     working_dir: /home/node/app
     labels:
-      traefik.backend: "react_client"
-      traefik.docker.network: "host"
-      traefik.frontend.rule: "Host:client.chas.school"
+      traefik.frontend.rule: "Host:TRAEFIK_ENV.chas.school"
     volumes:
       - ./:/home/node/app
     env_file:

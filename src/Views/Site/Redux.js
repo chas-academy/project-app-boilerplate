@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { PageTitle } from '../../Lib/Common/Views'
-import StudentList from '../../Redux/Containers/Students/StudentList'
+import React, { Component } from 'react';
+import { PageTitle } from '../../Lib/Common/Views';
+import StudentList from '../../Redux/Containers/Students/StudentList';
 
 export default class Redux extends Component {
   render() {
@@ -12,6 +12,6 @@ export default class Redux extends Component {
           <StudentList />
         </div>
       </div>
-    )
+    );
   }
 }

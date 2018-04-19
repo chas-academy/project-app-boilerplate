@@ -1,69 +1,77 @@
-import Moment from 'moment'
-import { ucFirst } from '../../../Lib/Helpers/Text'
+import Moment from 'moment';
+import { ucFirst } from '../../../Lib/Helpers/Text';
 
-const columns = [{
+const columns = [
+  {
     Header: 'User ID',
     accessor: 'userId',
-    width: 90
-  }, {
+    width: 90,
+  },
+  {
     Header: 'First Name',
-    accessor: 'firstName'
-  }, {
+    accessor: 'firstName',
+  },
+  {
     Header: 'Last Name',
-    accessor: 'lastName'
-  }, {
+    accessor: 'lastName',
+  },
+  {
     Header: 'Email',
-    accessor: 'email'
-  }, {
+    accessor: 'email',
+  },
+  {
     Header: 'Role',
-    accessor: 'role'
-  }, {
+    accessor: 'role',
+  },
+  {
     Header: 'Status',
     accessor: 'status',
-    Cell: ({ value }) => ucFirst(value)
-  }, {
+    Cell: ({ value }) => ucFirst(value),
+  },
+  {
     Header: 'Created At',
     accessor: 'createdAt',
     Cell: ({ value }) => Moment(value).format('MM/DD/YYYY hh:mm A'),
-    width: 160
-}]
+    width: 160,
+  },
+];
 
 const columnFilters = {
   userId: {
     type: 'string',
-    title: 'User ID'
+    title: 'User ID',
   },
   firstName: {
     type: 'string',
-    title: 'First Name'
+    title: 'First Name',
   },
   lastName: {
     type: 'string',
-    title: 'Last Name'
+    title: 'Last Name',
   },
   email: {
     type: 'string',
-    title: 'Email'
+    title: 'Email',
   },
   role: {
     type: 'string',
-    title: 'Role'
+    title: 'Role',
   },
   status: {
     type: 'string',
-    title: 'Status'
+    title: 'Status',
   },
   dateFrom: {
     type: 'string',
-    title: 'Date From'
+    title: 'Date From',
   },
   dateTo: {
     type: 'string',
-    title: 'Date To'
-  }
-}
+    title: 'Date To',
+  },
+};
 
 export default {
   columns,
-  columnFilters
-}
+  columnFilters,
+};

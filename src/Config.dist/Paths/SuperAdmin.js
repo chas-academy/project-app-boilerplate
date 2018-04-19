@@ -6,5 +6,5 @@ export default [
   { name: 'Admin › Users › New', path: '/admin/users/new' },
   { name: 'Admin › Users › Edit', path: '/admin/users/:userId' },
   { name: 'Admin › Users › Delete', path: '/admin/users/delete' },
-  { name: 'Admin › Settings', path: '/admin/settings' }
-]
+  { name: 'Admin › Settings', path: '/admin/settings' },
+];

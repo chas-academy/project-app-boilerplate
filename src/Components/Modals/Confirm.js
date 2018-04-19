@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import _ from 'lodash'
-import { Modal, Button } from 'react-bootstrap'
+import React, { Component } from 'react';
+import _ from 'lodash';
+import { Modal, Button } from 'react-bootstrap';
 
 export default class Confirm extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       onHide: props.closeModalHandler,
@@ -13,35 +13,32 @@ export default class Confirm extends Component {
       button: {
         title: (props.button && props.button.title) || 'Confirm',
         style: (props.button && props.button.style) || 'primary',
-        disabled: false
-      }
-    }
+        disabled: false,
+      },
+    };
   }
 
   toggleButton(state) {
     this.setState({
       onHide: state ? null : this.props.closeModalHandler,
       backdrop: state ? 'static' : true,
-      button: _.merge(
-        this.state.button,
-        { disabled: state }
-      )
-    })
+      button: _.merge(this.state.button, { disabled: state }),
+    });
   }
 
   handleConfirmRequest() {
-    this.toggleButton(true)
-    this.props.processRequestHandler()
+    this.toggleButton(true);
+    this.props.processRequestHandler();
   }
 
   componentWillReceiveProps() {
-    this.toggleButton(this.props.requestInProcess)
+    this.toggleButton(this.props.requestInProcess);
   }
 
   render() {
-    const props = this.props
-    const state = this.state
-    const button = state.button
+    const props = this.props;
+    const state = this.state;
+    const button = state.button;
 
     return (
       <Modal
@@ -58,29 +55,26 @@ export default class Confirm extends Component {
 
         <Modal.Footer>
           {props.showCloseButton ? (
-              <Button onClick={props.closeModalHandler}>
-                Close
+            <Button onClick={props.closeModalHandler}>Close</Button>
+          ) : (
+            <div>
+              <Button
+                onClick={props.closeModalHandler}
+                disabled={button.disabled}
+              >
+                Cancel
               </Button>
-            ) : (
-              <div>
-                <Button
-                  onClick={props.closeModalHandler}
-                  disabled={button.disabled}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  bsStyle={button.style}
-                  onClick={this.handleConfirmRequest.bind(this)}
-                  disabled={button.disabled}
-                >
-                  {button.title}
-                </Button>
-              </div>
-            )
-          }
+              <Button
+                bsStyle={button.style}
+                onClick={this.handleConfirmRequest.bind(this)}
+                disabled={button.disabled}
+              >
+                {button.title}
+              </Button>
+            </div>
+          )}
         </Modal.Footer>
       </Modal>
-    )
+    );
   }
 }

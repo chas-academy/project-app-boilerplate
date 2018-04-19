@@ -1,65 +1,70 @@
-import Store from 'store'
-import JWT from 'jsonwebtoken'
-import Axios from '../Common/Axios'
+import Store from 'store';
+import JWT from 'jsonwebtoken';
+import Axios from '../Common/Axios';
 
 export function store(data) {
   for (const key in data) {
-    Store.set(key, data[key])
+    Store.set(key, data[key]);
   }
 }
 
 export function isSignedIn() {
   token()
-  ? Axios.defaults.headers.common['Authorization'] = `Bearer ${token()}`
-  : delete Axios.defaults.headers.common['Authorization']
+    ? (Axios.defaults.headers.common.Authorization = `Bearer ${token()}`)
+    : delete Axios.defaults.headers.common.Authorization;
 
-  return !!token()
+  return !!token();
 }
 
 export function isSignedOut() {
-  return !isSignedIn()
+  return !isSignedIn();
 }
 
 export function isAdmin() {
-  return userRole() === 'admin'
+  return userRole() === 'admin';
 }
 
 export function adminIsSignedIn() {
-  return isSignedIn() && isAdmin()
+  return isSignedIn() && isAdmin();
 }
 
 export function isUser() {
-  return userRole() !== 'admin'
+  return userRole() !== 'admin';
 }
 
 export function userIsSignedIn() {
-  if (adminIsSignedIn()) return true
-  return isSignedIn() && isUser()
+  if (adminIsSignedIn()) return true;
+  return isSignedIn() && isUser();
 }
 
 export function userRole() {
-  const role = Store.get('role')
+  const role = Store.get('role');
 
-  return role === 'admin' ? '' : role
+  return role === 'admin' ? '' : role;
 }
 
 /* PAGE ACCESS */
 
 export function showPage(path) {
-  const allowedPaths = tokenData('allowedPaths')
-  const excludedPaths = tokenData('excludedPaths')
+  const allowedPaths = tokenData('allowedPaths');
+  const excludedPaths = tokenData('excludedPaths');
 
-  if (excludedPaths && excludedPaths.length > 0 && excludedPaths.indexOf(path) > -1) return false
-  if (allowedPaths && allowedPaths.toString() === '*') return true
-  return allowedPaths ? allowedPaths.indexOf(path) > -1 : false
+  if (
+    excludedPaths &&
+    excludedPaths.length > 0 &&
+    excludedPaths.indexOf(path) > -1
+  )
+    return false;
+  if (allowedPaths && allowedPaths.toString() === '*') return true;
+  return allowedPaths ? allowedPaths.indexOf(path) > -1 : false;
 }
 
 export function accessDenied(path) {
-  return !showPage(path)
+  return !showPage(path);
 }
 
 export function isAuthorised(path) {
-  return (typeof(path) === 'boolean' && path) || showPage(path)
+  return (typeof path === 'boolean' && path) || showPage(path);
 }
 
 /* TOKEN */
@@ -67,26 +72,24 @@ export function isAuthorised(path) {
 let verifyTokenTO = 0;
 
 export function verifyToken() {
-  if (!decodedToken()) return window.location.reload()
+  if (!decodedToken()) return window.location.reload();
 
-  clearTimeout(verifyTokenTO)
+  clearTimeout(verifyTokenTO);
 
-  verifyTokenTO = setTimeout(function() {
-    Axios
-      .get(process.env.REACT_APP_API_VERIFY_TOKEN_URL)
-      .catch(error => {
-        deleteToken()
-        window.location.reload()
-      })
+  verifyTokenTO = setTimeout(() => {
+    Axios.get(process.env.REACT_APP_API_VERIFY_TOKEN_URL).catch(error => {
+      deleteToken();
+      window.location.reload();
+    });
   }, 1000);
 }
 
 export function token() {
-  return Store.get('token')
+  return Store.get('token');
 }
 
 export function deleteToken() {
-  Store.remove('token')
+  Store.remove('token');
 }
 
 export function decodedToken() {
@@ -94,18 +97,18 @@ export function decodedToken() {
     return JWT.verify(
       token(),
       process.env.REACT_APP_API_JWT_SECRET,
-      function(errors, decoded) {
+      (errors, decoded) => {
         if (errors) {
-          deleteToken()
-          return false
+          deleteToken();
+          return false;
         }
 
-        return decoded
-      }
-    )
+        return decoded;
+      },
+    );
   }
 }
 
 export function tokenData(data) {
-  return decodedToken() && decodedToken()[data] ? decodedToken()[data] : null
+  return decodedToken() && decodedToken()[data] ? decodedToken()[data] : null;
 }

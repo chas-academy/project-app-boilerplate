@@ -1,14 +1,13 @@
-import Axios from 'axios'
+import Axios from 'axios';
 
-let AxiosInstance = Axios.create({
+const AxiosInstance = Axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
-  withCredentials: true
-})
+  withCredentials: true,
+});
 
-AxiosInstance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+AxiosInstance.defaults.headers.post['Content-Type'] =
+  'application/x-www-form-urlencoded';
 
-AxiosInstance.interceptors.response.use(function(response) {
-  return response
-})
+AxiosInstance.interceptors.response.use(response => response);
 
-export default AxiosInstance
+export default AxiosInstance;

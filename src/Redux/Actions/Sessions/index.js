@@ -1,5 +1,5 @@
-import { AUTH } from  './Types'
+import { AUTH } from './Types';
 
 export function auth(IsSignedIn) {
-  return { type: AUTH, IsSignedIn }
+  return { type: AUTH, IsSignedIn };
 }
