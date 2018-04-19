@@ -1,139 +1,114 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Axios from '../../../Lib/Common/Axios';
-import ConfirmModal from '../../Modals/Confirm';
-import Alert from '../../Alert';
-import * as Session from '../../../Lib/Helpers/Session';
+import React, { Component } from 'react'
+import axios from 'axios'
+import Axios from '../../../Lib/Common/Axios'
+import ConfirmModal from '../../Modals/Confirm'
+import Alert from '../../Alert'
+import * as Session from '../../../Lib/Helpers/Session'
 
 export default class DeleteRecord extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       showModal: false,
       deleteRequestInProcess: false,
       deleteRequestSuccess: false,
-      deleteRequestError: false,
-    };
-
-    this.handleCloseModal.bind(this);
-    this.handleDeleteRequest.bind(this);
-    this.handleDeleteRecord.bind(this);
+      deleteRequestError: false
+    }
   }
 
   handleDeleteRecord() {
     this.setState({
       showModal: true,
       deleteRequestSuccess: false,
-      deleteRequestError: false,
-    });
+      deleteRequestError: false
+    })
   }
 
   handleCloseModal() {
-    const { onSuccess } = this.props;
-    this.setState({ showModal: false });
+    this.setState({ showModal: false })
 
-    if (this.state.deleteRequestSuccess && onSuccess)
-      setTimeout(() => {
-        onSuccess();
-      }, 300);
+    if (this.state.deleteRequestSuccess && this.props.onSuccess)
+      setTimeout(() => { this.props.onSuccess() }, 300)
   }
 
   handleDeleteRequest() {
-    if (!Session.decodedToken()) return Session.verifyToken();
+    if (!Session.decodedToken()) return Session.verifyToken()
 
-    this.setState({ deleteRequestInProcess: true });
+    this.setState({ deleteRequestInProcess: true })
 
     setTimeout(() => {
-      this.setState({ deleteRequestError: false });
-    });
+      this.setState({ deleteRequestError: false })
+    })
 
-    const { resource, dataSource, resourceIdKey } = this.props;
-    const resourceId = resource[resourceIdKey];
+    const props = this.props
+    const resourceId = props.resource[props.resourceIdKey]
 
-    return Axios.delete([dataSource, resourceId].join('/'))
-      .then(() => {
+    Axios
+      .delete([props.dataSource, resourceId].join('/'))
+      .then(response => {
         this.setState({
           deleteRequestSuccess: true,
-          deleteRequestInProcess: false,
-        });
+          deleteRequestInProcess: false
+        })
       })
       .catch(error => {
-        if (axios.isCancel(error)) return true;
+        if (axios.isCancel(error)) return true
 
-        console.log('Error: ', error);
+        console.log('Error: ', error)
 
-        this.setState({ deleteRequestInProcess: false });
+        this.setState({ deleteRequestInProcess: false })
 
-        return setTimeout(() => {
-          this.setState({ deleteRequestError: true });
-        });
-      });
+        setTimeout(() => {
+          this.setState({ deleteRequestError: true })
+        })
+      })
   }
 
   render() {
-    const {
-      showDeleteRecord,
-      resource,
-      resourceIdKey,
-      isButton,
-      disabled,
-      successMessage,
-      confirmModal,
-    } = this.props;
+    const props = this.props
 
-    if (!showDeleteRecord || resource[resourceIdKey] === 1) return null;
+    if (!props.showDeleteRecord || (props.resource[props.resourceIdKey] === 1)) return null
 
-    const {
-      showModal,
-      deleteRequestInProcess,
-      deleteRequestSuccess,
-      deleteRequestError,
-    } = this.state;
-    const buttonClassName = isButton
-      ? 'btn btn-danger'
-      : 'datatable-actions-btn';
-    const isDisabled = disabled || false;
-    const message = successMessage || 'Record has been deleted.';
+    const state = this.state
+    const buttonClassName = props.isButton ? 'btn btn-danger' : 'datatable-actions-btn'
+    const disabled = props.disabled ? props.disabled : false
+    const successMessage = props.successMessage ? props.successMessage : 'Record has been deleted.'
 
     return (
       <span>
         <ConfirmModal
-          title={confirmModal.title}
-          button={confirmModal.button}
-          showModal={showModal}
-          closeModalHandler={this.handleCloseModal}
-          processRequestHandler={this.handleDeleteRequest}
-          requestInProcess={deleteRequestInProcess}
-          showCloseButton={deleteRequestSuccess}
+          title={props.confirmModal.title}
+          button={props.confirmModal.button}
+          showModal={state.showModal}
+          closeModalHandler={this.handleCloseModal.bind(this)}
+          processRequestHandler={this.handleDeleteRequest.bind(this)}
+          requestInProcess={state.deleteRequestInProcess}
+          showCloseButton={state.deleteRequestSuccess}
         >
-          {deleteRequestSuccess ? (
-            <Alert type="success" hideDismissButton>
-              {message}
-            </Alert>
-          ) : (
-            <ModalContent
-              deleteRequestError={deleteRequestError}
-              message={confirmModal.message}
-            />
-          )}
+          {state.deleteRequestSuccess
+            ? <Alert type="success" hideDismissButton>{successMessage}</Alert>
+            : <ModalContent deleteRequestError={state.deleteRequestError} message={props.confirmModal.message} />
+          }
         </ConfirmModal>
         <button
           type="button"
           className={buttonClassName}
-          onClick={this.handleDeleteRecord}
-          disabled={isDisabled}
+          onClick={this.handleDeleteRecord.bind(this)}
+          disabled={disabled}
         >
           Delete
         </button>
       </span>
-    );
+    )
   }
 }
 
-const ModalContent = props => (
-  <div>
-    {props.deleteRequestError && <Alert processError />}
-    {props.message}
-  </div>
-);
+const ModalContent = (props) => {
+  return (
+    <div>
+      {props.deleteRequestError && <Alert processError />}
+      {props.message}
+    </div>
+  )
+}

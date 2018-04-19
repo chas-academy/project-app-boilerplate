@@ -1,0 +1,13 @@
+version: '3.0'
+services:
+  react_client_dev:
+    container_name: react_client_dev
+    build: .
+    image: react_client_dev
+    working_dir: /home/node/app
+    ports:
+      - 7771:7771
+    volumes:
+      - ./:/home/node/app
+    env_file:
+      - .env

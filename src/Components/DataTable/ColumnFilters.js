@@ -1,106 +1,94 @@
-import React, { Component } from 'react';
-import Form from 'react-jsonschema-form';
-import clone from 'lodash.clone';
-import pickBy from 'lodash.pickby';
-import identity from 'lodash.identity';
-
-import { Button } from 'react-bootstrap';
-
-function filteredData(formData) {
-  return pickBy(formData, identity);
-}
+import React, { Component } from 'react'
+import Form from 'react-jsonschema-form'
+import _ from 'lodash'
+import { Button } from 'react-bootstrap'
 
 export default class ColumnFilters extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       formData: {},
       initialised: true,
-      buttonsDisabled: true,
-    };
+      buttonsDisabled: true
+    }
     this.schema = {
-      type: 'object',
-      properties: this.props.filters,
-    };
+      'type': 'object',
+      'properties': this.props.filters
+    }
     this.uiSchema = {
       'ui:rootFieldId': 'column_filters',
-      dateFrom: { 'ui:widget': 'date-time' },
-      dateTo: { 'ui:widget': 'date-time' },
-    };
-    this.formTO = 0;
-
-    this.handleOnChange.bind(this);
-    this.handleOnSubmit.bind(this);
-    this.handleResetFilters.bind(this);
+      'dateFrom': { 'ui:widget': 'date-time' },
+      'dateTo': { 'ui:widget': 'date-time' }
+    }
+    this.formTO = 0
   }
 
-  componentDidMount() {
-    this.setFilters();
-  }
+  buttonsDisabled(filtered) {
+    if (this.props.queryString !== '') return false
 
-  componentWillReceiveProps() {
-    if (this.state.initialised) this.setFilters();
+    return Object.keys(filtered).length === 0
   }
 
   setFilters() {
-    const formData = clone(this.props.filtered);
+    let formData = _.clone(this.props.filtered)
 
     if (Object.keys(formData).length > 0) {
-      Object.keys(formData).forEach(key => {
-        formData[key] = decodeURIComponent(formData[key]);
-      });
+      for (const key in formData) {
+        formData[key] = decodeURIComponent(formData[key])
+      }
     }
 
     this.setState({
       formData,
-      buttonsDisabled: this.buttonsDisabled(formData),
-    });
-  }
-
-  buttonsDisabled(filtered) {
-    if (this.props.queryString !== '') return false;
-
-    return Object.keys(filtered).length === 0;
+      queryString: this.props.queryString,
+      buttonsDisabled: this.buttonsDisabled(formData)
+    })
   }
 
   handleOnChange({ formData }) {
-    const disabled = this.buttonsDisabled(filteredData(formData));
+    const disabled = this.buttonsDisabled(filteredData(formData))
 
     this.setState({
       formData,
-      buttonsDisabled: disabled,
-    });
+      buttonsDisabled: disabled
+    })
   }
 
   handleOnSubmit({ formData }) {
-    this.setState({ formData, initialised: false });
+    this.setState({ formData, initialised: false })
 
-    clearTimeout(this.formTO);
+    clearTimeout(this.formTO)
 
     this.formTO = setTimeout(() => {
       if (Object.keys(filteredData(this.state.formData)).length > 0)
         this.props.setStateHandler({
           filtered: filteredData(formData),
-          page: 0,
-        });
+          page: 0
+        })
       else {
-        this.setState({ buttonsDisabled: true });
-        this.handleResetFilters();
+        this.setState({ buttonsDisabled: true })
+        this.handleResetFilters()
       }
 
-      setTimeout(() => {
-        this.setState({ initialised: true });
-      }, 100);
-    }, 100);
+      setTimeout(() => { this.setState({ initialised: true }) }, 100)
+    }, 100)
   }
 
   handleResetFilters() {
-    this.props.setStateHandler({ filtered: {}, page: 0 });
+    this.props.setStateHandler({ filtered: {}, page: 0 })
+  }
+
+  componentWillReceiveProps() {
+    if (this.state.initialised) this.setFilters()
+  }
+
+  componentDidMount() {
+    this.setFilters()
   }
 
   render() {
-    if (!this.props.filters) return null;
+    if (!this.props.filters) return null
 
     return (
       <div className="column-filters">
@@ -109,15 +97,15 @@ export default class ColumnFilters extends Component {
           formData={this.state.formData}
           schema={this.schema}
           uiSchema={this.uiSchema}
-          onChange={this.handleOnChange}
-          onSubmit={this.handleOnSubmit}
+          onChange={this.handleOnChange.bind(this)}
+          onSubmit={this.handleOnSubmit.bind(this)}
         >
           <div className="form-group column-filters-buttons">
             <Button
               type="button"
               bsStyle="default"
               disabled={this.state.buttonsDisabled}
-              onClick={this.handleResetFilters}
+              onClick={this.handleResetFilters.bind(this)}
             >
               Reset Filters
             </Button>
@@ -131,6 +119,10 @@ export default class ColumnFilters extends Component {
           </div>
         </Form>
       </div>
-    );
+    )
   }
+}
+
+function filteredData(formData) {
+  return _.pickBy(formData, _.identity)
 }

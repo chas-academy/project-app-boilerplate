@@ -1,38 +1,33 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import Axios from '../../Lib/Common/Axios';
-import * as Session from '../../Lib/Helpers/Session';
-import { closeNavbar } from '../../Lib/Common/Views';
+import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+import Axios from '../../Lib/Common/Axios'
+import * as Session from '../../Lib/Helpers/Session'
+import { closeNavbar } from '../../Lib/Common/Views'
 
 export default class SignOut extends Component {
-  constructor() {
-    super();
-
-    this.signOut.bind(this);
-  }
   signOut() {
-    if (Session.decodedToken() === false) return this.props.auth(false);
+    if (Session.decodedToken() === false) return this.props.auth(false)
 
-    return Axios.post(process.env.REACT_APP_API_SIGN_OUT_URL).then(() => {
-      Session.deleteToken();
-      closeNavbar();
-      this.props.auth(false);
-    });
+    Axios
+      .post(process.env.REACT_APP_API_SIGN_OUT_URL)
+      .then(response => {
+        Session.deleteToken()
+        closeNavbar()
+        this.props.auth(false)
+      })
   }
 
   render() {
-    const { IsSignedIn, referrer } = this.props;
+    const props = this.props
 
-    if (IsSignedIn) {
+    if (props.IsSignedIn) {
       return (
         <li>
-          <button className="sign-out-btn" onClick={this.signOut}>
-            Sign Out
-          </button>
+          <button className="sign-out-btn" onClick={this.signOut.bind(this)}>Sign Out</button>
         </li>
-      );
+      )
     }
 
-    return <Redirect to={referrer} />;
+    return <Redirect to={props.referrer} />
   }
 }

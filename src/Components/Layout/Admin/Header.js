@@ -1,24 +1,20 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { Navbar } from 'react-bootstrap';
-import { NavLink } from '../../../Lib/Common/Views';
-import SignOutButton from '../../../Redux/Containers/Sessions/SignOutButton';
-import ReactLogo from '../../../Assets/Images/react-logo.svg';
+import React, { Component } from 'react'
+import { Link, withRouter } from 'react-router-dom'
+import { Navbar } from 'react-bootstrap'
+import { NavLink } from '../../../Lib/Common/Views'
+import SignOutButton from '../../../Redux/Containers/Sessions/SignOutButton'
+import ReactLogo from '../../../Assets/Images/react-logo.svg'
 
 class Header extends Component {
   render() {
-    const referrer = window.location.pathname;
+    const referrer = window.location.pathname
 
     return (
       <header className="header">
         <Navbar inverse className="navbar-fixed-top">
           <Navbar.Header>
             <Link to="/admin/dashboard" className="navbar-brand">
-              <img
-                src={ReactLogo}
-                className="navbar-brand-logo"
-                alt="React Logo"
-              />
+              <img src={ReactLogo} className="navbar-brand-logo" alt="React Logo" />
               <span className="text">Admin</span>
             </Link>
             <Navbar.Toggle id="js-navbar-toggle-btn" />
@@ -32,8 +28,8 @@ class Header extends Component {
           </Navbar.Collapse>
         </Navbar>
       </header>
-    );
+    )
   }
 }
 
-export default withRouter(Header);
+export default withRouter(Header)

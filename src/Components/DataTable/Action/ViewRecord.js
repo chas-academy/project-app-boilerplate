@@ -1,55 +1,46 @@
-import React, { Component } from 'react';
-import ViewModal from '../../Modals/Default';
+import React, { Component } from 'react'
+import ViewModal from '../../Modals/Default'
 
 export default class ViewRecord extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.state = { showModal: false };
-
-    this.handleToggleViewModal.bind(this);
-    this.handleOpenModal.bind(this);
+    this.state = { showModal: false }
   }
 
-  handleToggleViewModal() {
-    this.setState({ showModal: !this.state.showModal });
+  handleToggleViewModal(resourceId=null) {
+    this.setState({ showModal: !this.state.showModal })
   }
 
   handleOpenModal(e) {
-    e.preventDefault();
-    this.setState({ showModal: true });
+    e.preventDefault()
+    this.setState({ showModal: true })
   }
 
   render() {
-    const {
-      resource,
-      showViewRecord,
-      viewRecordOption,
-      resourceIdKey,
-      path,
-    } = this.props;
+    const props = this.props
 
-    if (!showViewRecord) return null;
+    if (!props.showViewRecord) return null
 
-    const resourceId = resource[resourceIdKey];
+    const resourceId = props.resource[props.resourceIdKey]
 
     return (
       <span>
         <ViewModal
-          formOption={viewRecordOption}
-          resource={resource}
-          enableModal={showViewRecord}
+          formOption={props.viewRecordOption}
+          resource={props.resource}
+          enableModal={props.showViewRecord}
           showModal={this.state.showModal}
-          toggleModalHandler={this.handleToggleViewModal}
+          toggleModalHandler={this.handleToggleViewModal.bind(this)}
         />
         <a
-          href={[path, resourceId].join('/')}
+          href={[props.path, resourceId].join('/')}
           className="datatable-actions-btn"
-          onClick={this.handleOpenModal}
+          onClick={this.handleOpenModal.bind(this)}
         >
           View
         </a>
       </span>
-    );
+    )
   }
 }

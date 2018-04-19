@@ -1,57 +1,47 @@
-import React, { Component } from 'react';
-import ModalDefault from '../../Modals/Default';
+import React, { Component } from 'react'
+import ModalDefault from '../../Modals/Default'
 
 export default class EditRecord extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.state = { showModal: false };
-
-    this.handleToggleFormModal.bind(this);
-    this.handleOpenModal.bind(this);
+    this.state = { showModal: false }
   }
 
   handleToggleFormModal() {
-    this.setState({ showModal: !this.state.showModal });
+    this.setState({ showModal: !this.state.showModal })
   }
 
   handleOpenModal(e) {
-    e.preventDefault();
-    this.setState({ showModal: true });
+    e.preventDefault()
+    this.setState({ showModal: true })
   }
 
   render() {
-    const {
-      showEditRecord,
-      resource,
-      resourceIdKey,
-      editFormOption,
-      onSuccess,
-      path,
-    } = this.props;
+    const props = this.props
 
-    if (!showEditRecord) return null;
+    if (!props.showEditRecord) return null
 
-    const resourceId = resource[resourceIdKey];
+    const resourceId = props.resource[props.resourceIdKey]
 
     return (
       <span>
         <ModalDefault
-          formOption={editFormOption}
-          resource={resource}
-          enableModal={showEditRecord}
+          formOption={props.editFormOption}
+          resource={props.resource}
+          enableModal={props.showEditRecord}
           showModal={this.state.showModal}
-          onSuccess={onSuccess}
-          toggleModalHandler={this.handleToggleFormModal}
+          onSuccess={props.onSuccess}
+          toggleModalHandler={this.handleToggleFormModal.bind(this)}
         />
         <a
-          href={[path, resourceId, 'edit'].join('/')}
+          href={[props.path, resourceId, 'edit'].join('/')}
           className="datatable-actions-btn"
-          onClick={this.handleOpenModal}
+          onClick={this.handleOpenModal.bind(this)}
         >
           Edit
         </a>
       </span>
-    );
+    )
   }
 }
