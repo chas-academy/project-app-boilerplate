@@ -1,0 +1,18 @@
+version: '3.5'
+services:
+  client:
+    image: registry.chas.school/solenya-client-staging:latest
+    networks:
+      - traefik
+    deploy:
+      labels:
+        traefik.port: '80'
+        traefik.backend: 'solenya_client_staging'
+        traefik.docker.network: 'traefik'
+        traefik.frontend.rule: 'Host:solenya-staging.chas.school'
+    env_file:
+      - .env
+
+networks:
+  traefik:
+    external: true
