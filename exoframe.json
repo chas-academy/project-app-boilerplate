@@ -1,6 +1,0 @@
-{
-  "name":"solenya-client",
-  "domain": "DOMAIN_NAME.chas.school",
-  "project": "solenya-project",
-  "template": "docker-compose"
-}
