@@ -1,17 +1,36 @@
-import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
-import { Navbar } from 'react-bootstrap'
-import { NavLink, AuthNavLink } from '../../../Lib/Common/Views'
-import SignOutButton from '../../../Redux/Containers/Sessions/SignOutButton'
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
+import styled from "styled-components";
 
-class Header extends Component {
-  render() {
-    const path = this.props.match.path
-    const referrer = window.location.pathname
+import { NavLink, AuthNavLink } from "../../../Lib/Common/Views";
+import SignOutButton from "../../../Redux/Containers/Sessions/SignOutButton";
 
-    return (
-      <header className="header">
-        <Navbar inverse>
+const StyledHeader = styled.header`
+  .bar {
+    border-bottom: 10px solid ${props => props.theme.black};
+    display: grid;
+    grid-template-columns: auto 1fr;
+    justify-content: space-between;
+    align-items: stretch;
+    @media (max-width: 1300px) {
+      grid-template-columns: 1fr;
+      justify-content: center;
+    }
+  }
+  .sub-bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border-bottom: 1px solid ${props => props.theme.lightgrey};
+  }
+`;
+
+const referrer = window.location.pathname;
+
+const Header = ({ match }) => (
+  <StyledHeader>
+     <div className="bar"></div>
+     <div className="sub-bar"></div>
+    {/* <Navbar inverse>
           <Navbar.Header>
             <Link to="/" className="navbar-brand">{process.env.REACT_APP_SITE_NAME}</Link>
             <Navbar.Toggle id="js-navbar-toggle-btn" />
@@ -25,10 +44,8 @@ class Header extends Component {
               <SignOutButton referrer={referrer} />
             </ul>
           </Navbar.Collapse>
-        </Navbar>
-      </header>
-    )
-  }
-}
+        </Navbar> */}
+  </StyledHeader>
+);
 
-export default withRouter(Header)
+export default withRouter(Header);
