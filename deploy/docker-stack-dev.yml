@@ -9,7 +9,7 @@ services:
         traefik.port: '80'
         traefik.backend: 'solenya_client_dev'
         traefik.docker.network: 'traefik'
-        traefik.frontend.rule: 'Host:solenya-dev.chas.school'
+        traefik.frontend.rule: 'Host:dev.solenya.chas.school'
     env_file:
       - .env
 

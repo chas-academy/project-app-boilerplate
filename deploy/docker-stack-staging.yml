@@ -9,7 +9,7 @@ services:
         traefik.port: '80'
         traefik.backend: 'solenya_client_staging'
         traefik.docker.network: 'traefik'
-        traefik.frontend.rule: 'Host:solenya-staging.chas.school'
+        traefik.frontend.rule: 'Host:staging.solenya.chas.school'
     env_file:
       - .env
 
